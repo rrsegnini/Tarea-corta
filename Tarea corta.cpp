@@ -6,7 +6,7 @@ using namespace std;
 int LeerArchivo()
 	{
 	
-	/*                                   
+	                                   
 	
 	//Este es el que lee línea por línea[
 	
@@ -20,13 +20,11 @@ int LeerArchivo()
     		}
     	myfile.close();
   		}
-
   	else cout << "Unable to open file"; 
-
   	return 0;
-  	]*/
+  	
 	
-	
+	/*
   	//Este es el que lo lee todo pegado[
   	char str[256];
 
@@ -45,6 +43,7 @@ int LeerArchivo()
 	
 	return 0;
   	//]
+  	*/
   	
 	}
 
