@@ -48,3 +48,8 @@ int LeerArchivo()
   	
 	}
 
+int main()
+	{
+	LeerArchivo();
+	}
+
