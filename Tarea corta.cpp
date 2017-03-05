@@ -5,14 +5,18 @@ using namespace std;
 
 int main()
 	{
-	/*
+	
+	/*                                   
+	
+	//Este es el que lee línea por línea[
+	
 	string line;
   	ifstream myfile ("Arch1.txt");
   	if (myfile.is_open())
   		{
     	while ( getline (myfile,line) )
     		{
-      		cout << line << '\n';
+      		cout << line << '\n'; //En line está la línea del .txt
     		}
     	myfile.close();
   		}
@@ -20,8 +24,10 @@ int main()
   	else cout << "Unable to open file"; 
 
   	return 0;
-  	*/
-  	
+  	]*/
+	
+	
+  	//Este es el que lo lee todo pegado[
   	char str[256];
 
 	//std::cout << "Arch1.txt";
@@ -38,7 +44,7 @@ int main()
 	is.close();                // close file
 	
 	return 0;
-  	
+  	//]
   	
 	}
 
