@@ -1,7 +1,6 @@
 #include <iostream>
 #include <fstream>
 #include <string>
-//#include <stream.h>
 
 using namespace std;
 
@@ -55,6 +54,7 @@ class lista {
     int largoLista();
     int LeerArchivo();
     pnodo RetornarPrimero();
+    string LeerPrimerCaracter();
     
     
    private:
@@ -224,6 +224,9 @@ void lista::Siguiente()
 
 void lista::Primero()
 {
+	
+	cout<<"Primero UNO: ";
+	cout<<primero<<endl;
    actual = primero;
 }
 
@@ -235,24 +238,35 @@ void lista::Ultimo()
 } 
 
 //Metí estas funciones en la clase de lista *
-int lista::LeerArchivo() //* 
+string lista::LeerPrimerCaracter()
 	{
-	//Este es el que lee lÃƒÂ­nea por lÃƒÂ­nea[
-	//string Iniciar = "Basura";
-	
-	//InsertarFinal(Iniciar);
-	//pnodo Archivo1 = primero;
-	//BorrarInicio();
 	string line;
   	ifstream myfile ("Arch1.txt");
   	if (myfile.is_open())
   		{
     	while ( getline (myfile,line) )
     		{
+    		return line;
+    		}
+    	myfile.close();
+		}
+	}
+int lista::LeerArchivo() //* 
+	{
+	//Este es el que lee line by line
+	
+	//BorrarInicio();
+	string line;
+  	ifstream myfile ("Arch1.txt");
+  	if (myfile.is_open())
+  		{
+  		getline (myfile,line);
+    	while ( getline (myfile,line) )
+    		{
     		
     		InsertarFinal(line);
-      		//cout << line << '\n'; //En line estÃƒÂ¡ la lÃƒÂ­nea del .txt
-    		}
+      		//cout << line << '\n';     		
+			}
     	myfile.close();
     	Mostrar();
   		}
@@ -263,8 +277,12 @@ int lista::LeerArchivo() //*
 
 pnodo lista::RetornarPrimero() //*
 	{
+	cout<< "Primero DOS: ";
+	cout<<primero<<endl;
 	return primero; 
 	}
+
+
 
 
 
@@ -339,12 +357,24 @@ void NodoLista:: imprimir(){
 int main()
 	{
 	NodoLista ExpOriginal;
-	// = new NodoLista();
+	
 	
 	lista Arch1;
+	string Nada = Arch1.LeerPrimerCaracter();
+	Arch1.InsertarFinal(Nada);
+	
+	pnodo primero = Arch1.RetornarPrimero();
+	
+	
+	//ExpOriginal.imprimir();
+	//ExpOriginal.insertar(Arch1.RetornarPrimero());
+	//ExpOriginal.imprimir();
 	Arch1.LeerArchivo();
 	
-	ExpOriginal.insertar(Arch1.RetornarPrimero());
+	Arch1.Primero();
+	//ExpOriginal.insertar(primero);
+	
+	
 	ExpOriginal.imprimir();
 	}
 
