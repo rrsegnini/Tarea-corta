@@ -9,20 +9,20 @@ using namespace std;
 
 class nodo {
    public:
-    nodo(int v)
+    nodo(string v)
     {
        valor = v;
        siguiente = NULL;
     }
 
-nodo(int v, nodo * signodo)
+nodo(string v, nodo * signodo)
     {
        valor = v;
        siguiente = signodo;
     }
 
    private:
-    int valor;
+    string valor;
     nodo *siguiente;
     
         
@@ -36,9 +36,9 @@ class lista {
     lista() { primero = actual = NULL; }
     ~lista();
     
-    void InsertarInicio(int v);
-    void InsertarFinal(int v);
-    void InsertarPos (int v, int pos);
+    void InsertarInicio(string v);
+    void InsertarFinal(string v);
+    void InsertarPos (string v, int pos);
     void EliminarInicio();
     void EliminarFinal();
     void EliminarPos(int pos);
@@ -53,6 +53,9 @@ class lista {
     void BorrarInicio();
     void borrarPosicion(int pos);
     int largoLista();
+    int LeerArchivo();
+    pnodo RetornarPrimero();
+    
     
    private:
     pnodo primero;
@@ -88,7 +91,7 @@ int lista::largoLista(){
     
 }
 
-void lista::InsertarInicio(int v)
+void lista::InsertarInicio(string v)
 {
    if (ListaVacia())
      primero = new nodo(v);
@@ -96,7 +99,7 @@ void lista::InsertarInicio(int v)
      primero=new nodo (v,primero);
 }
  
-void lista::InsertarFinal(int v)
+void lista::InsertarFinal(string v)
 {
    if (ListaVacia())
      primero = new nodo(v);
@@ -109,7 +112,7 @@ void lista::InsertarFinal(int v)
 }
 
 
-void lista::InsertarPos(int v,int pos)
+void lista::InsertarPos(string v,int pos)
 {
    if (ListaVacia())
      primero = new nodo(v);
@@ -229,9 +232,39 @@ void lista::Ultimo()
    actual = primero;  
    if(!ListaVacia()) 
       while(actual->siguiente) Siguiente();
-}
+} 
 
+//Metí estas funciones en la clase de lista *
+int lista::LeerArchivo() //* 
+	{
+	//Este es el que lee lÃƒÂ­nea por lÃƒÂ­nea[
+	//string Iniciar = "Basura";
+	
+	//InsertarFinal(Iniciar);
+	//pnodo Archivo1 = primero;
+	//BorrarInicio();
+	string line;
+  	ifstream myfile ("Arch1.txt");
+  	if (myfile.is_open())
+  		{
+    	while ( getline (myfile,line) )
+    		{
+    		
+    		InsertarFinal(line);
+      		//cout << line << '\n'; //En line estÃƒÂ¡ la lÃƒÂ­nea del .txt
+    		}
+    	myfile.close();
+    	Mostrar();
+  		}
+  			
+  	else cout << "Unable to open file"; 
+  	return 0;
+	}
 
+pnodo lista::RetornarPrimero() //*
+	{
+	return primero; 
+	}
 
 
 
@@ -271,7 +304,7 @@ public:
 	  void insertar(pnodo v); 
 	  void eliminar ();
 	  void imprimir();
-	  int LeerArchivo();
+	  //int LeerArchivo();
 };
 
 void NodoLista:: insertar (pnodo v)
@@ -303,36 +336,15 @@ void NodoLista:: imprimir(){
 }
 
 
-
-
-int NodoLista::LeerArchivo()
-	{
-	//Este es el que lee lÃ­nea por lÃ­nea[
-	
-	string line;
-  	ifstream myfile ("Arch1.txt");
-  	if (myfile.is_open())
-  		{
-    	while ( getline (myfile,line) )
-    		{
-      		cout << line << '\n'; //En line estÃ¡ la lÃ­nea del .txt
-    		}
-    	myfile.close();
-  		}
-  	else cout << "Unable to open file"; 
-  	return 0;
-	}
-
 int main()
 	{
 	NodoLista ExpOriginal;
 	// = new NodoLista();
-	ExpOriginal.LeerArchivo();
 	
+	lista Arch1;
+	Arch1.LeerArchivo();
 	
-	pnodo Archivo1;
-	
-	ExpOriginal.insertar(Archivo1);
+	ExpOriginal.insertar(Arch1.RetornarPrimero());
 	ExpOriginal.imprimir();
 	}
 
