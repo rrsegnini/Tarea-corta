@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include <ctype.h>
 #include <sstream>
+#include <map>
 
 using namespace std;
 
@@ -24,6 +25,18 @@ nodo(string v, nodo * signodo)
        siguiente = signodo;
     }
 
+nodo(int v)
+    {
+       valor = v;
+       siguiente = NULL;
+    }
+    
+nodo(int v, nodo * signodo)
+    {
+       valor = v;
+       siguiente = signodo;
+    }
+    
    private:
     string valor;
     nodo *siguiente;
@@ -41,6 +54,7 @@ class lista {
     
     void InsertarInicio(string v);
     void InsertarFinal(string v);
+    void InsertarFinal(int v);
     void InsertarPos (string v, int pos);
     void EliminarInicio();
     void EliminarFinal();
@@ -119,6 +133,17 @@ void lista::InsertarFinal(string v)
       }    
 }
 
+void lista::InsertarFinal(int v)
+{
+   if (ListaVacia())
+     primero = new nodo(v);
+   else
+     { pnodo aux = primero;
+        while ( aux->siguiente != NULL)
+          aux= aux->siguiente;
+        aux->siguiente=new nodo(v);
+      }    
+}
 
 void lista::InsertarPos(string v,int pos)
 {
@@ -323,32 +348,37 @@ int convInt (string s){  //Convierte un string a un int
 			
 	}
 	
-int prioriDP (string s){
-  std::map <char, int> pDP;
+int prioriDP (string s){ //Retorna la prioridad de un operador dentro de la pila usando un mapa
 
-  pDP['(']= 0;
-  pDP['+']= 1;
-  pDP['-']= 1;
-  pDP['*']= 2;
-  pDP['/']= 2;
-  pDP['^']= 3;
+  map <string, int> pDP;
+  
+  pDP["("]= 0;
+  pDP["+"]= 1;
+  pDP["-"]= 1;
+  pDP["*"]= 2;
+  pDP["/"]= 2;
+  pDP["^"]= 3;
 
   return pDP [s];  
 }
 
+
+
 int prioriFP (string s){
-  std::map <char, int> pFP;
-
-  pFP['(']= 5;
-  pFP['+']= 1;
-  pFP['-']= 1;
-  pFP['*']= 2;
-  pFP['/']= 2;
-  pFP['^']= 4;
-
+	
+  map <string, int> pFP;
+  
+  pFP["("]= 5;
+  pFP["+"]= 1;
+  pFP["-"]= 1;
+  pFP["*"]= 2;
+  pFP["/"]= 2;
+  pFP["^"]= 4;
 
   return pFP [s];  
 }
+	
+	
 	
 void lista :: recorrer(){ //recorre la lista que contiene la expresion original
 
@@ -362,30 +392,37 @@ void lista :: recorrer(){ //recorre la lista que contiene la expresion original
 		if (esDig(aux->valor)){  //Si es numero, la pone en el posfijo de una vez
 			pilaPosFijo.InsertarFinal(aux->valor);
 		
-		}
-		
-		else{
+		}else{
+			
 			if (listaTemp.ListaVacia()){  //Si la listatemp de simbolos esta vacia, mete el operador de una vez
 				listaTemp.InsertarFinal(aux->valor);
 				
-			else{
-				if (prioriDP(listaTemp.Ultimo()) > prioriFP(aux->valor)){
-					pilaPosFijo.InsertarFinal()
+			}else{
+				if (prioriDP(listaTemp.retUltimo()) > prioriFP(aux->valor)){
+					pilaPosFijo.InsertarFinal(listaTemp.retUltimo());
+					listaTemp.BorrarFinal();
+					listaTemp.InsertarFinal(aux->valor);
+				}else{
+					listaTemp.InsertarFinal(aux->valor);
+					
 				}
 				
 			}
 				
 			}
-		}
+		 aux = aux -> siguiente;
+	}
 		
-		aux = aux -> siguiente;
+		
+	cout<< "Lista TEmp"	;
+	listaTemp.Mostrar();
+	cout<< "PosFijo"	;
+	pilaPosFijo.Mostrar();
 	
 	}
 	
-	listaTemp.Mostrar();
-	pilaPosFijo.Mostrar();
-	
-}
+
+
 
 
 
