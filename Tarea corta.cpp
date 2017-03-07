@@ -75,6 +75,7 @@ class lista {
     string LeerPrimerCaracter();
     void recorrer();
     string retUltimo();
+    void evaluar();
     
     
    private:
@@ -121,7 +122,7 @@ void lista::InsertarInicio(string v)
 }
  
  
-void lista::InsertarFinal(string v)
+void lista::InsertarFinal (string v)
 {
    if (ListaVacia())
      primero = new nodo(v);
@@ -133,7 +134,7 @@ void lista::InsertarFinal(string v)
       }    
 }
 
-void lista::InsertarFinal(int v)
+void lista::InsertarFinal (int v)
 {
    if (ListaVacia())
      primero = new nodo(v);
@@ -244,7 +245,7 @@ void lista::Mostrar()
    
    aux = primero;
    while(aux) {
-      cout << aux->valor << "-> ";
+      cout << aux->valor << " -> ";
       aux = aux->siguiente;
    }
    cout << endl;
@@ -328,22 +329,13 @@ pnodo lista::RetornarPrimero() //Esta funcion retorna el puntero "primero" de un
 	}
 
 
-bool esDig (string s){   //True si un string es un digito
-
-	if(isdigit(s[0])){
-		return true;
-	}
-	
-	else{
-		return false;
-	}
-}
 
 int convInt (string s){  //Convierte un string a un int
 	int x;
 	
 	stringstream convert(s);
 	convert >> x;
+	cout << x;
 	return x;
 			
 	}
@@ -386,49 +378,60 @@ void lista :: recorrer(){ //recorre la lista que contiene la expresion original
 	aux = primero;
 	lista listaTemp;
 	lista pilaPosFijo;
+	int tempNum;
 	
-	while (aux -> siguiente != NULL){
+	while (aux){
 		
-		if (esDig(aux->valor)){  //Si es numero, la pone en el posfijo de una vez
+		if (isdigit(aux->valor[0])){  //Si es numero, la pone en el posfijo de una vez
+			//tempNum = convInt(aux->valor);
+			//pilaPosFijo.InsertarFinal(tempNum);
 			pilaPosFijo.InsertarFinal(aux->valor);
+			
 		
 		}else{
-			
 			if (listaTemp.ListaVacia()){  //Si la listatemp de simbolos esta vacia, mete el operador de una vez
 				listaTemp.InsertarFinal(aux->valor);
 				
 			}else{
-				if (prioriDP(listaTemp.retUltimo()) > prioriFP(aux->valor)){
+				if (prioriDP(listaTemp.retUltimo()) >= prioriFP(aux->valor)){ 
 					pilaPosFijo.InsertarFinal(listaTemp.retUltimo());
 					listaTemp.BorrarFinal();
 					listaTemp.InsertarFinal(aux->valor);
+					
+				if (aux->valor == ")"){ 
+					listaTemp.BorrarInicio();
+					
+				}
 				}else{
 					listaTemp.InsertarFinal(aux->valor);
 					
 				}
 				
 			}
-				
+			
 			}
 		 aux = aux -> siguiente;
+		
+	
 	}
+	
+	if (listaTemp.retUltimo() != ")"){
+		pilaPosFijo.InsertarFinal(listaTemp.retUltimo());
+	}
+	
 		
-		
-	cout<< "Lista TEmp"	;
-	listaTemp.Mostrar();
-	cout<< "PosFijo"	;
+	//cout<< "Lista Temp";
+	//listaTemp.Mostrar();
+	cout<< "PosFijo ";
 	pilaPosFijo.Mostrar();
 	
 	}
 	
 
-
-
-
-
-
-
-
+void lista::evaluar(){
+	//Evalua la expresion posfijo 
+	
+}
 
 
 
@@ -448,6 +451,7 @@ class NodoLista
    pnodo Cola [5]={0};
    int tamano;
 
+
 public:
        NodoLista(){
        frente = 0;
@@ -462,8 +466,11 @@ public:
 	  void insertar(pnodo v); 
 	  void eliminar ();
 	  void imprimir();
+	  void recorrer();
+	  
 	  //int LeerArchivo();
 };
+
 
 void NodoLista:: insertar (pnodo v)
 {
@@ -477,6 +484,7 @@ void NodoLista:: insertar (pnodo v)
          }
 }   
 
+
 void NodoLista:: eliminar ()
 {
          if(!ColaVacia()){
@@ -487,12 +495,19 @@ void NodoLista:: eliminar ()
          }
 }  
 
+
 void NodoLista:: imprimir(){
      for(int i = frente;i<fondo+1;i++){
          cout<<Cola[i]<<"->";    
            }
 }
 
+
+void NodoLista::recorrer(){ //Para recorrer la cola
+   //Para recorrer la cola ExpOriginal, entra a cada lista y hace lista.recorrer()
+   //Cuando se termine de evaluar, pasa a la siguiente
+	
+}
 
 
 
@@ -518,8 +533,7 @@ int main()
 	
 	Arch1.LeerArchivo(); //LeerArchivo saca todos los demas elementos de la expresion y los mete a la lista (pila) Arch1
 	ExpOriginal.imprimir();
-	esDig("345");
-	convInt("345");
+	//convInt("345");
 	Arch1.recorrer();
 	
 
