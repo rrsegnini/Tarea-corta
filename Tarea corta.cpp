@@ -59,6 +59,8 @@ class lista {
     int LeerArchivo();
     pnodo RetornarPrimero();
     string LeerPrimerCaracter();
+    void recorrer();
+    string retUltimo();
     
     
    private:
@@ -95,6 +97,7 @@ int lista::largoLista(){
     
 }
 
+
 void lista::InsertarInicio(string v)
 {
    if (ListaVacia())
@@ -102,6 +105,7 @@ void lista::InsertarInicio(string v)
    else
      primero=new nodo (v,primero);
 }
+ 
  
 void lista::InsertarFinal(string v)
 {
@@ -226,6 +230,7 @@ void lista::Siguiente()
    if(actual) actual = actual->siguiente;
 }
 
+
 void lista::Primero()
 {
 	
@@ -234,12 +239,24 @@ void lista::Primero()
    actual = primero;
 }
 
+
 void lista::Ultimo()
 {
    actual = primero;  
    if(!ListaVacia()) 
       while(actual->siguiente) Siguiente();
 } 
+
+string lista :: retUltimo(){ //Retorna el ultimo valor de una lista 
+	pnodo aux;
+	aux = primero;
+	
+	while (aux ->siguiente != NULL){
+		aux = aux ->siguiente;
+	}
+	
+	return aux->valor;
+}
 
 //Metí estas funciones en la clase de lista *
 string lista::LeerPrimerCaracter() //Esta funcion saca solo la primera linea del .txt y lo mete en Arch1
@@ -255,26 +272,27 @@ string lista::LeerPrimerCaracter() //Esta funcion saca solo la primera linea del
     	myfile.close();
 		}
 	}
-int lista::LeerArchivo() //Esta funciona saca todas las demas lineas
+int lista::LeerArchivo() //Esta funcion saca todas las demas lineas
 	{
-	//Este es el que lee line by line
+	//Este es el que lee linea por linea
 
-	string line;
-  	ifstream myfile ("Arch1.txt");
-  	if (myfile.is_open())
+	string linea;
+  	ifstream archivo ("Arch1.txt");
+  	
+  	if (archivo.is_open())
   		{
-  		getline (myfile,line);
-    	while ( getline (myfile,line) )
+  		getline (archivo, linea);
+    	while ( getline (archivo, linea) )
     		{
     		
-    		InsertarFinal(line);
-      		//cout << line << '\n';     		
+    		InsertarFinal(linea);
+       		
 			}
-    	myfile.close();
-    	Mostrar();
+    	archivo.close();
+    	//Mostrar();
   		}
   			
-  	else cout << "Unable to open file"; 
+  	else cout << "No se puede abrir el archivo"; 
   	return 0;
 	}
 
@@ -285,6 +303,89 @@ pnodo lista::RetornarPrimero() //Esta funcion retorna el puntero "primero" de un
 	}
 
 
+bool esDig (string s){   //True si un string es un digito
+
+	if(isdigit(s[0])){
+		return true;
+	}
+	
+	else{
+		return false;
+	}
+}
+
+int convInt (string s){  //Convierte un string a un int
+	int x;
+	
+	stringstream convert(s);
+	convert >> x;
+	return x;
+			
+	}
+	
+int prioriDP (string s){
+  std::map <char, int> pDP;
+
+  pDP['(']= 0;
+  pDP['+']= 1;
+  pDP['-']= 1;
+  pDP['*']= 2;
+  pDP['/']= 2;
+  pDP['^']= 3;
+
+  return pDP [s];  
+}
+
+int prioriFP (string s){
+  std::map <char, int> pFP;
+
+  pFP['(']= 5;
+  pFP['+']= 1;
+  pFP['-']= 1;
+  pFP['*']= 2;
+  pFP['/']= 2;
+  pFP['^']= 4;
+
+
+  return pFP [s];  
+}
+	
+void lista :: recorrer(){ //recorre la lista que contiene la expresion original
+
+	pnodo aux;
+	aux = primero;
+	lista listaTemp;
+	lista pilaPosFijo;
+	
+	while (aux -> siguiente != NULL){
+		
+		if (esDig(aux->valor)){  //Si es numero, la pone en el posfijo de una vez
+			pilaPosFijo.InsertarFinal(aux->valor);
+		
+		}
+		
+		else{
+			if (listaTemp.ListaVacia()){  //Si la listatemp de simbolos esta vacia, mete el operador de una vez
+				listaTemp.InsertarFinal(aux->valor);
+				
+			else{
+				if (prioriDP(listaTemp.Ultimo()) > prioriFP(aux->valor)){
+					pilaPosFijo.InsertarFinal()
+				}
+				
+			}
+				
+			}
+		}
+		
+		aux = aux -> siguiente;
+	
+	}
+	
+	listaTemp.Mostrar();
+	pilaPosFijo.Mostrar();
+	
+}
 
 
 
@@ -355,29 +456,9 @@ void NodoLista:: imprimir(){
            }
 }
 
-/*void NodoLista :: recorrer(){
-	while 
-}*/
 
-bool esDig (string s){   //True si un string es un digito
 
-	if(isdigit(s[0])){
-		return true;
-	}
-	
-	else{
-		return false;
-	}
-}
 
-int convInt (string s){  //Convierte un string a un int
-	int x;
-	
-	stringstream convert(s);
-	convert >> x;
-	return x;
-			
-	}
 	
 
 
@@ -394,18 +475,15 @@ int main()
 	pnodo primero = Arch1.RetornarPrimero(); //Retorna el puntero "primero" de la lista para pegarlo a la cola
 	
 	
-	//ExpOriginal.imprimir();
-	//ExpOriginal.insertar(Arch1.RetornarPrimero());
-	//ExpOriginal.imprimir();
 	
 	Arch1.Primero();
-	//ExpOriginal.insertar(primero);
 	ExpOriginal.insertar(primero); //Inserta el puntero a la NodoLista
 	
 	Arch1.LeerArchivo(); //LeerArchivo saca todos los demas elementos de la expresion y los mete a la lista (pila) Arch1
 	ExpOriginal.imprimir();
 	esDig("345");
 	convInt("345");
+	Arch1.recorrer();
 	
 
 	}
