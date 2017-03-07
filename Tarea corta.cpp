@@ -242,7 +242,7 @@ void lista::Ultimo()
 } 
 
 //Metí estas funciones en la clase de lista *
-string lista::LeerPrimerCaracter()
+string lista::LeerPrimerCaracter() //Esta funcion saca solo la primera linea del .txt y lo mete en Arch1
 	{
 	string line;
   	ifstream myfile ("Arch1.txt");
@@ -255,11 +255,10 @@ string lista::LeerPrimerCaracter()
     	myfile.close();
 		}
 	}
-int lista::LeerArchivo() //* 
+int lista::LeerArchivo() //Esta funciona saca todas las demas lineas
 	{
 	//Este es el que lee line by line
-	
-	//BorrarInicio();
+
 	string line;
   	ifstream myfile ("Arch1.txt");
   	if (myfile.is_open())
@@ -279,9 +278,8 @@ int lista::LeerArchivo() //*
   	return 0;
 	}
 
-pnodo lista::RetornarPrimero() //*
+pnodo lista::RetornarPrimero() //Esta funcion retorna el puntero "primero" de una lista. Sí se usa :P
 	{
-	cout<< "Primero DOS: ";
 	cout<<primero<<endl;
 	return primero; 
 	}
@@ -362,43 +360,52 @@ void NodoLista:: imprimir(){
 }*/
 
 bool esDig (string s){   //True si un string es un digito
-	char str[] = s;
 
-	if(isdigit(str[0])){
-		return True
+	if(isdigit(s[0])){
+		return true;
+	}
+	
+	else{
+		return false;
 	}
 }
 
-void convInt (string s){
+int convInt (string s){  //Convierte un string a un int
 	int x;
 	
 	stringstream convert(s);
 	convert >> x;
-	cout << x; 
-		
-		
+	return x;
+			
 	}
-}
+	
+
+
+
 int main()
 	{
-	NodoLista ExpOriginal;
+	NodoLista ExpOriginal; //La cola con los punteros 
 	
 	
-	lista Arch1;
-	string Nada = Arch1.LeerPrimerCaracter();
-	Arch1.InsertarFinal(Nada);
+	lista Arch1; //La lista (pila) donde se va a guardar la expresion del primer archivo
+	string PrimerCaracter = Arch1.LeerPrimerCaracter(); //Esto es para meter el primer caracter a la lista y crear un primero
+	Arch1.InsertarFinal(PrimerCaracter); //Se inserta el primer caracter a la lista (pila)
 	
-	pnodo primero = Arch1.RetornarPrimero();
+	pnodo primero = Arch1.RetornarPrimero(); //Retorna el puntero "primero" de la lista para pegarlo a la cola
 	
 	
 	//ExpOriginal.imprimir();
 	//ExpOriginal.insertar(Arch1.RetornarPrimero());
 	//ExpOriginal.imprimir();
-	Arch1.LeerArchivo();
 	
 	Arch1.Primero();
 	//ExpOriginal.insertar(primero);
+	ExpOriginal.insertar(primero); //Inserta el puntero a la NodoLista
+	
+	Arch1.LeerArchivo(); //LeerArchivo saca todos los demas elementos de la expresion y los mete a la lista (pila) Arch1
 	ExpOriginal.imprimir();
+	esDig("345");
+	convInt("345");
 	
 
 	}
