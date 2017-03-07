@@ -1,6 +1,10 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <stdio.h>
+#include <stdlib.h>
+#include <ctype.h>
+#include <sstream>
 
 using namespace std;
 
@@ -353,7 +357,28 @@ void NodoLista:: imprimir(){
            }
 }
 
+/*void NodoLista :: recorrer(){
+	while 
+}*/
 
+bool esDig (string s){   //True si un string es un digito
+	char str[] = s;
+
+	if(isdigit(str[0])){
+		return True
+	}
+}
+
+void convInt (string s){
+	int x;
+	
+	stringstream convert(s);
+	convert >> x;
+	cout << x; 
+		
+		
+	}
+}
 int main()
 	{
 	NodoLista ExpOriginal;
@@ -373,9 +398,9 @@ int main()
 	
 	Arch1.Primero();
 	//ExpOriginal.insertar(primero);
-	
-	
 	ExpOriginal.imprimir();
+	
+
 	}
 
 // prueba
