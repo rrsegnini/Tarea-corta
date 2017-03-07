@@ -70,9 +70,10 @@ class lista {
     void BorrarInicio();
     void borrarPosicion(int pos);
     int largoLista();
-    int LeerArchivo();
+    
+    int LeerArchivo(string num_archivo);
     pnodo RetornarPrimero();
-    string LeerPrimerCaracter();
+    string LeerPrimerCaracter(string num_archivo);
     void recorrer();
     string retUltimo();
     void evaluar();
@@ -260,7 +261,6 @@ void lista::Siguiente()
 void lista::Primero()
 {
 	
-	cout<<"Primero UNO: ";
 	cout<<primero<<endl;
    actual = primero;
 }
@@ -284,11 +284,16 @@ string lista :: retUltimo(){ //Retorna el ultimo valor de una lista
 	return aux->valor;
 }
 
-//Metí estas funciones en la clase de lista *
-string lista::LeerPrimerCaracter() //Esta funcion saca solo la primera linea del .txt y lo mete en Arch1
+//MetÃ­ estas funciones en la clase de lista *
+string lista::LeerPrimerCaracter(string num_archivo) //Esta funcion saca solo la primera linea del .txt y lo mete en Arch1
 	{
 	string line;
-  	ifstream myfile ("Arch1.txt");
+	string Arch = "Arch";
+	string txt = ".txt";
+	string numero_archivo = Arch  + num_archivo + txt;
+	
+	const char * c = numero_archivo.c_str();
+  	ifstream myfile (c);
   	if (myfile.is_open())
   		{
     	while ( getline (myfile,line) )
@@ -298,12 +303,19 @@ string lista::LeerPrimerCaracter() //Esta funcion saca solo la primera linea del
     	myfile.close();
 		}
 	}
-int lista::LeerArchivo() //Esta funcion saca todas las demas lineas
+int lista::LeerArchivo(string num_archivo) //Esta funcion saca todas las demas lineas
 	{
 	//Este es el que lee linea por linea
 
 	string linea;
-  	ifstream archivo ("Arch1.txt");
+	string Arch = "Arch";
+	string txt = ".txt";
+	string numero_archivo = Arch  + num_archivo + txt;
+
+	
+	
+	const char * c = numero_archivo.c_str(); //Para pasar el string a constant char
+  	ifstream archivo (c); //Solo acepta constant chars
   	
   	if (archivo.is_open())
   		{
@@ -315,16 +327,18 @@ int lista::LeerArchivo() //Esta funcion saca todas las demas lineas
        		
 			}
     	archivo.close();
-    	//Mostrar();
+    	cout<<"Expresion original: ";
+    	Mostrar();
   		}
   			
   	else cout << "No se puede abrir el archivo"; 
   	return 0;
+	
 	}
+	
 
-pnodo lista::RetornarPrimero() //Esta funcion retorna el puntero "primero" de una lista. Sí se usa :P
+pnodo lista::RetornarPrimero() //Esta funcion retorna el puntero "primero" de una lista. SÃ­ se usa :P
 	{
-	cout<<primero<<endl;
 	return primero; 
 	}
 
@@ -422,7 +436,7 @@ void lista :: recorrer(){ //recorre la lista que contiene la expresion original
 		
 	//cout<< "Lista Temp";
 	//listaTemp.Mostrar();
-	cout<< "PosFijo ";
+	cout<< "PosFijo: ";
 	pilaPosFijo.Mostrar();
 	
 	}
@@ -506,6 +520,13 @@ void NodoLista:: imprimir(){
 void NodoLista::recorrer(){ //Para recorrer la cola
    //Para recorrer la cola ExpOriginal, entra a cada lista y hace lista.recorrer()
    //Cuando se termine de evaluar, pasa a la siguiente
+   
+   
+   
+   
+//*************Yo creo que no hace falta hacerlo en un funcion aparte***************
+	
+	
 	
 }
 
@@ -521,20 +542,77 @@ int main()
 	
 	
 	lista Arch1; //La lista (pila) donde se va a guardar la expresion del primer archivo
-	string PrimerCaracter = Arch1.LeerPrimerCaracter(); //Esto es para meter el primer caracter a la lista y crear un primero
+	lista Arch2;
+	lista Arch3;
+	lista Arch4;
+	lista Arch5;
+	
+	string cont = "1";
+	
+	string PrimerCaracter = Arch1.LeerPrimerCaracter(cont); //Esto es para meter el primer caracter a la lista y crear un primero
 	Arch1.InsertarFinal(PrimerCaracter); //Se inserta el primer caracter a la lista (pila)
-	
 	pnodo primero = Arch1.RetornarPrimero(); //Retorna el puntero "primero" de la lista para pegarlo a la cola
-	
-	
-	
-	Arch1.Primero();
 	ExpOriginal.insertar(primero); //Inserta el puntero a la NodoLista
+	Arch1.LeerArchivo(cont); //LeerArchivo saca todos los demas elementos de la expresion y los mete a la lista (pila) Arch1
+	Arch1.recorrer();
+	cout<<"Presione ENTER para evaluar el siguiente archivo"<<endl;
+	cin.get();
 	
-	Arch1.LeerArchivo(); //LeerArchivo saca todos los demas elementos de la expresion y los mete a la lista (pila) Arch1
+	
+
+	cont = "2";
+	PrimerCaracter = Arch2.LeerPrimerCaracter(cont); 
+	Arch2.InsertarFinal(PrimerCaracter); 
+	primero = Arch2.RetornarPrimero(); 
+	ExpOriginal.insertar(primero); 
+	Arch2.LeerArchivo(cont);
+	Arch2.recorrer();
+	cout<<"Presione ENTER para evaluar el siguiente archivo"<<endl;
+	cin.get();
+	
+	
+	cont = "3";
+	PrimerCaracter = Arch3.LeerPrimerCaracter(cont); 
+	Arch3.InsertarFinal(PrimerCaracter); 
+	primero = Arch3.RetornarPrimero(); 
+	ExpOriginal.insertar(primero); 
+	Arch3.LeerArchivo(cont); 
+	Arch3.recorrer();
+	cout<<"Presione ENTER para evaluar el siguiente archivo"<<endl;
+	cin.get();
+	
+	
+	
+	
+	cont = "4";
+	PrimerCaracter = Arch4.LeerPrimerCaracter(cont); 
+	Arch4.InsertarFinal(PrimerCaracter); 
+	primero = Arch4.RetornarPrimero(); 
+	ExpOriginal.insertar(primero); 
+	Arch4.LeerArchivo(cont); 
+	Arch4.recorrer();
+	cout<<"Presione ENTER para evaluar el siguiente archivo"<<endl;
+	cin.get();
+	
+	
+	cont = "5";
+	PrimerCaracter = Arch5.LeerPrimerCaracter(cont); 
+	Arch5.InsertarFinal(PrimerCaracter); 
+	primero = Arch5.RetornarPrimero(); 
+	ExpOriginal.insertar(primero); 
+	Arch5.LeerArchivo(cont); 
+	Arch5.recorrer();
+	cout<<"Presione ENTER para SALIR"<<endl;
+	cin.get();
+	
+	
+	
+	
+	
+	
 	ExpOriginal.imprimir();
 	//convInt("345");
-	Arch1.recorrer();
+	
 	
 
 	}
