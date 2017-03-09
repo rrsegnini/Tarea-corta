@@ -288,7 +288,7 @@ string lista :: retUltimo(){ //Retorna el ultimo valor de una lista
 	return aux->valor;
 }
 
-//MetÃƒÂ­ estas funciones en la clase de lista *
+
 string lista::LeerPrimerCaracter(string num_archivo) //Esta funcion saca solo la primera linea del .txt y lo mete en Arch1
 	{
 	string line;
@@ -343,7 +343,7 @@ int lista::LeerArchivo(string num_archivo) //Esta funcion saca todas las demas l
 	}
 	
 
-pnodo lista::RetornarPrimero() //Esta funcion retorna el puntero "primero" de una lista. SÃƒÂ­ se usa :P
+pnodo lista::RetornarPrimero() //Esta funcion retorna el puntero "primero" de una lista. SÃƒÆ’Ã‚Â­ se usa :P
 	{
 	return primero; 
 	}
@@ -355,7 +355,6 @@ int convInt (string s){  //Convierte un string a un int
 	
 	stringstream convert(s);
 	convert >> x;
-	//cout << x<<endl;
 	return x;
 			
 	}
@@ -406,8 +405,7 @@ lista lista :: recorrer(){ //recorre la lista que contiene la expresion original
 			
 		}
 		if (isdigit(aux->valor[0])){  //Si es numero, la pone en el posfijo de una vez
-			//tempNum = convInt(aux->valor);
-			//pilaPosFijo.InsertarFinal(tempNum);
+			
 			pilaPosFijo.InsertarFinal(aux->valor);
 			
 		
@@ -443,7 +441,7 @@ lista lista :: recorrer(){ //recorre la lista que contiene la expresion original
 			}
 			
 			}
-		//listaTemp.Mostrar();
+		
 		 aux = aux -> siguiente;
 		 
 		
@@ -460,10 +458,9 @@ lista lista :: recorrer(){ //recorre la lista que contiene la expresion original
 	return pilaPosFijo;
 	}
 	
-
+//Evalua la expresion posfijo 
 void lista::evaluar()
 	{
-	//Evalua la expresion posfijo 
 	
 	int num1;
 	int num2;
@@ -471,11 +468,11 @@ void lista::evaluar()
 
 	int primerNumero = convInt(aux->valor);
 	int segundoNumero = convInt(aux->siguiente->valor);
-	int temp;
+
 	
 	while (aux!=NULL)
 		{
-		//Mostrar();
+
 		num1 = primerNumero;
 		num2 = segundoNumero;
 		
@@ -505,6 +502,11 @@ void lista::evaluar()
 	
 				}
 			}
+		else
+			{
+
+			break;
+			}
 		}
 	cout<<"Resultado: ";
 	cout<<primerNumero<<endl;
@@ -524,9 +526,6 @@ int lista::evaluarNumeros(int numero1, int numero2, string operacion)
 	pFP["/"]= numero1/numero2;
 	pFP["^"]= pow(numero1, numero2);
 	
-
-	//cout<<"Resutlado: ";
-	//cout<<pFP [operacion]<<endl;
 	return pFP [operacion]; 
   
 	}
@@ -699,10 +698,10 @@ int main()
 	
 	
 	ExpOriginal.imprimir();
-	//convInt("345");
+
 	
 	
 
 	}
 
-// prueba
+
