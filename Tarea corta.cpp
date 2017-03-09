@@ -288,7 +288,7 @@ string lista :: retUltimo(){ //Retorna el ultimo valor de una lista
 	return aux->valor;
 }
 
-//MetÃƒÂ­ estas funciones en la clase de lista *
+//MetÃƒÆ’Ã‚Â­ estas funciones en la clase de lista *
 string lista::LeerPrimerCaracter(string num_archivo) //Esta funcion saca solo la primera linea del .txt y lo mete en Arch1
 	{
 	string line;
@@ -343,7 +343,7 @@ int lista::LeerArchivo(string num_archivo) //Esta funcion saca todas las demas l
 	}
 	
 
-pnodo lista::RetornarPrimero() //Esta funcion retorna el puntero "primero" de una lista. SÃƒÂ­ se usa :P
+pnodo lista::RetornarPrimero() //Esta funcion retorna el puntero "primero" de una lista. SÃƒÆ’Ã‚Â­ se usa :P
 	{
 	return primero; 
 	}
@@ -461,7 +461,8 @@ lista lista :: recorrer(){ //recorre la lista que contiene la expresion original
 	}
 	
 
-void lista::evaluar(){
+void lista::evaluar()
+	{
 	//Evalua la expresion posfijo 
 	
 	int num1;
@@ -469,25 +470,49 @@ void lista::evaluar(){
 	pnodo aux = primero;
 	lista listDeNumeros;
 	int primerNumero = convInt(aux->valor);
+	int segundoNumero = convInt(aux->siguiente->valor);
+	int temp;
 	
 	while (aux!=NULL)
 		{
-		//Mostrar();
+		Mostrar();
 		num1 = primerNumero;
-		num2 = convInt(aux->siguiente->valor);
+		num2 = segundoNumero;
 		
-		//cout<<num1<<endl;
-		//listDeNumeros.InsertarFinal(num1);
-		//listDeNumeros.InsertarFinal(num2);
-		//listDeNumeros.Mostrar();
+		cout<<"NUMS: ";
+		cout<<num1;
+		cout<<"  ";
+		cout<<num2<<endl;
 		
-		aux=aux->siguiente->siguiente;
+		
+		while (isdigit(aux->valor[0])) //Mueve el aux hasta encontar la operacion
+			{
+			cout<<"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAH"<<endl;
+			aux=aux->siguiente;
+			
+			}
 		primerNumero = evaluarNumeros(num1, num2, aux->valor);
+		aux = aux->siguiente;
 		
+		if (isdigit(aux->siguiente->valor[0]))
+			{
+			
+			segundoNumero = evaluarNumeros(convInt(aux->valor), convInt(aux->siguiente->valor), aux->siguiente->siguiente->valor);
+			aux = aux->siguiente->siguiente->siguiente;
+			}
+		else
+			{
+			
+				segundoNumero=convInt(aux->valor);
+				aux = aux->siguiente;
+
+			}
+	
 		}
-	
-	
-}
+	cout<<"Resultado: ";
+	cout<<primerNumero<<endl;
+	}
+
 
 
 int lista::evaluarNumeros(int numero1, int numero2, string operacion)
@@ -579,18 +604,7 @@ void NodoLista:: imprimir(){
 }
 
 
-void NodoLista::recorrer(){ //Para recorrer la cola
-   //Para recorrer la cola ExpOriginal, entra a cada lista y hace lista.recorrer()
-   //Cuando se termine de evaluar, pasa a la siguiente
-   
-   
-   
-   
-//*************Yo creo que no hace falta hacerlo en un funcion aparte***************
-	
-	
-	
-}
+
 
 
 
@@ -617,7 +631,7 @@ int main()
 	ExpOriginal.insertar(primero); //Inserta el puntero a la NodoLista
 	Arch1.LeerArchivo(cont); //LeerArchivo saca todos los demas elementos de la expresion y los mete a la lista (pila) Arch1
 	lista ExpresionPostfijo = Arch1.recorrer();
-	//ExpresionPostfijo.evaluar();
+	ExpresionPostfijo.evaluar();
 	
 	
 	cout<<"Presione ENTER para evaluar el siguiente archivo"<<endl;
@@ -632,6 +646,9 @@ int main()
 	ExpOriginal.insertar(primero); 
 	Arch2.LeerArchivo(cont);
 	Arch2.recorrer();
+	ExpresionPostfijo = Arch1.recorrer();
+	ExpresionPostfijo.evaluar();
+	
 	cout<<"Presione ENTER para evaluar el siguiente archivo"<<endl;
 	cin.get();
 	
