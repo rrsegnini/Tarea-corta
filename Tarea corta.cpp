@@ -6,6 +6,7 @@
 #include <ctype.h>
 #include <sstream>
 #include <map>
+#include <cmath> 
 
 using namespace std;
 
@@ -24,6 +25,7 @@ nodo(string v, nodo * signodo)
        valor = v;
        siguiente = signodo;
     }
+    
 
 nodo(int v)
     {
@@ -74,9 +76,10 @@ class lista {
     int LeerArchivo(string num_archivo);
     pnodo RetornarPrimero();
     string LeerPrimerCaracter(string num_archivo);
-    void recorrer();
+    lista recorrer();
     string retUltimo();
     void evaluar();
+    int evaluarNumeros(int numero1, int numero2, string operacion);
     
     
    private:
@@ -284,7 +287,7 @@ string lista :: retUltimo(){ //Retorna el ultimo valor de una lista
 	return aux->valor;
 }
 
-//MetÃ­ estas funciones en la clase de lista *
+//MetÃƒÂ­ estas funciones en la clase de lista *
 string lista::LeerPrimerCaracter(string num_archivo) //Esta funcion saca solo la primera linea del .txt y lo mete en Arch1
 	{
 	string line;
@@ -303,6 +306,8 @@ string lista::LeerPrimerCaracter(string num_archivo) //Esta funcion saca solo la
     	myfile.close();
 		}
 	}
+	
+	
 int lista::LeerArchivo(string num_archivo) //Esta funcion saca todas las demas lineas
 	{
 	//Este es el que lee linea por linea
@@ -337,7 +342,7 @@ int lista::LeerArchivo(string num_archivo) //Esta funcion saca todas las demas l
 	}
 	
 
-pnodo lista::RetornarPrimero() //Esta funcion retorna el puntero "primero" de una lista. SÃ­ se usa :P
+pnodo lista::RetornarPrimero() //Esta funcion retorna el puntero "primero" de una lista. SÃƒÂ­ se usa :P
 	{
 	return primero; 
 	}
@@ -349,7 +354,7 @@ int convInt (string s){  //Convierte un string a un int
 	
 	stringstream convert(s);
 	convert >> x;
-	cout << x;
+	cout << x<<endl;
 	return x;
 			
 	}
@@ -386,7 +391,7 @@ int prioriFP (string s){
 	
 	
 	
-void lista :: recorrer(){ //recorre la lista que contiene la expresion original
+lista lista :: recorrer(){ //recorre la lista que contiene la expresion original
 
 	pnodo aux;
 	aux = primero;
@@ -438,17 +443,60 @@ void lista :: recorrer(){ //recorre la lista que contiene la expresion original
 	//listaTemp.Mostrar();
 	cout<< "PosFijo: ";
 	pilaPosFijo.Mostrar();
-	
+	return pilaPosFijo;
 	}
 	
 
 void lista::evaluar(){
 	//Evalua la expresion posfijo 
 	
+	int num1;
+	int num2;
+	pnodo aux = primero;
+	lista listDeNumeros;
+	int primerNumero = convInt(aux->valor);
+	
+	while (aux!=NULL)
+		{
+		//Mostrar();
+		num1 = primerNumero;
+		num2 = convInt(aux->siguiente->valor);
+		
+		//cout<<num1<<endl;
+		//listDeNumeros.InsertarFinal(num1);
+		//listDeNumeros.InsertarFinal(num2);
+		//listDeNumeros.Mostrar();
+		
+		aux=aux->siguiente->siguiente;
+		primerNumero = evaluarNumeros(num1, num2, aux->valor);
+		
+		}
+	
+	
 }
 
 
+int lista::evaluarNumeros(int numero1, int numero2, string operacion)
+	{
+	//string num1 = retUltimo();
+	//convInt(num1);
+	//cout<<convInt(num1);
+	
+	map <string, int> pFP;
+  	
+  	pFP["("]= 0;
+	pFP["+"]= numero1+numero2;
+	pFP["-"]= numero1-numero2;
+	pFP["*"]= numero1*numero2;
+	pFP["/"]= numero1/numero2;
+	pFP["^"]= pow(numero1, numero2);
+	
 
+	cout<<"Resutlado: ";
+	cout<<pFP [operacion]<<endl;
+	return pFP [operacion]; 
+  
+	}
 
 
 
@@ -554,7 +602,10 @@ int main()
 	pnodo primero = Arch1.RetornarPrimero(); //Retorna el puntero "primero" de la lista para pegarlo a la cola
 	ExpOriginal.insertar(primero); //Inserta el puntero a la NodoLista
 	Arch1.LeerArchivo(cont); //LeerArchivo saca todos los demas elementos de la expresion y los mete a la lista (pila) Arch1
-	Arch1.recorrer();
+	lista ExpresionPostfijo = Arch1.recorrer();
+	//ExpresionPostfijo.evaluar();
+	
+	
 	cout<<"Presione ENTER para evaluar el siguiente archivo"<<endl;
 	cin.get();
 	
@@ -605,6 +656,7 @@ int main()
 	cout<<"Presione ENTER para SALIR"<<endl;
 	cin.get();
 	
+
 	
 	
 	
