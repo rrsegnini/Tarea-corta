@@ -288,7 +288,7 @@ string lista :: retUltimo(){ //Retorna el ultimo valor de una lista
 	return aux->valor;
 }
 
-//MetÃƒÆ’Ã‚Â­ estas funciones en la clase de lista *
+//MetÃƒÂ­ estas funciones en la clase de lista *
 string lista::LeerPrimerCaracter(string num_archivo) //Esta funcion saca solo la primera linea del .txt y lo mete en Arch1
 	{
 	string line;
@@ -343,7 +343,7 @@ int lista::LeerArchivo(string num_archivo) //Esta funcion saca todas las demas l
 	}
 	
 
-pnodo lista::RetornarPrimero() //Esta funcion retorna el puntero "primero" de una lista. SÃƒÆ’Ã‚Â­ se usa :P
+pnodo lista::RetornarPrimero() //Esta funcion retorna el puntero "primero" de una lista. SÃƒÂ­ se usa :P
 	{
 	return primero; 
 	}
@@ -355,7 +355,7 @@ int convInt (string s){  //Convierte un string a un int
 	
 	stringstream convert(s);
 	convert >> x;
-	cout << x<<endl;
+	//cout << x<<endl;
 	return x;
 			
 	}
@@ -443,7 +443,7 @@ lista lista :: recorrer(){ //recorre la lista que contiene la expresion original
 			}
 			
 			}
-		listaTemp.Mostrar();
+		//listaTemp.Mostrar();
 		 aux = aux -> siguiente;
 		 
 		
@@ -468,46 +468,43 @@ void lista::evaluar()
 	int num1;
 	int num2;
 	pnodo aux = primero;
-	lista listDeNumeros;
+
 	int primerNumero = convInt(aux->valor);
 	int segundoNumero = convInt(aux->siguiente->valor);
 	int temp;
 	
 	while (aux!=NULL)
 		{
-		Mostrar();
+		//Mostrar();
 		num1 = primerNumero;
 		num2 = segundoNumero;
-		
-		cout<<"NUMS: ";
-		cout<<num1;
-		cout<<"  ";
-		cout<<num2<<endl;
 		
 		
 		while (isdigit(aux->valor[0])) //Mueve el aux hasta encontar la operacion
 			{
-			cout<<"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAH"<<endl;
+	
 			aux=aux->siguiente;
 			
 			}
 		primerNumero = evaluarNumeros(num1, num2, aux->valor);
 		aux = aux->siguiente;
-		
-		if (isdigit(aux->siguiente->valor[0]))
+		if (aux!=NULL)
 			{
 			
-			segundoNumero = evaluarNumeros(convInt(aux->valor), convInt(aux->siguiente->valor), aux->siguiente->siguiente->valor);
-			aux = aux->siguiente->siguiente->siguiente;
-			}
-		else
-			{
-			
-				segundoNumero=convInt(aux->valor);
-				aux = aux->siguiente;
-
-			}
+			if (isdigit(aux->siguiente->valor[0]))
+				{
+				
+				segundoNumero = evaluarNumeros(convInt(aux->valor), convInt(aux->siguiente->valor), aux->siguiente->siguiente->valor);
+				aux = aux->siguiente->siguiente->siguiente;
+				}
+			else
+				{
+				
+					segundoNumero=convInt(aux->valor);
+					aux = aux->siguiente;
 	
+				}
+			}
 		}
 	cout<<"Resultado: ";
 	cout<<primerNumero<<endl;
@@ -517,9 +514,6 @@ void lista::evaluar()
 
 int lista::evaluarNumeros(int numero1, int numero2, string operacion)
 	{
-	//string num1 = retUltimo();
-	//convInt(num1);
-	//cout<<convInt(num1);
 	
 	map <string, int> pFP;
   	
@@ -531,8 +525,8 @@ int lista::evaluarNumeros(int numero1, int numero2, string operacion)
 	pFP["^"]= pow(numero1, numero2);
 	
 
-	cout<<"Resutlado: ";
-	cout<<pFP [operacion]<<endl;
+	//cout<<"Resutlado: ";
+	//cout<<pFP [operacion]<<endl;
 	return pFP [operacion]; 
   
 	}
@@ -569,7 +563,7 @@ public:
 	  void imprimir();
 	  void recorrer();
 	  
-	  //int LeerArchivo();
+	  
 };
 
 
@@ -646,8 +640,8 @@ int main()
 	ExpOriginal.insertar(primero); 
 	Arch2.LeerArchivo(cont);
 	Arch2.recorrer();
-	ExpresionPostfijo = Arch1.recorrer();
-	ExpresionPostfijo.evaluar();
+	lista ExpresionPostfijo2 = Arch2.recorrer();
+	ExpresionPostfijo2.evaluar();
 	
 	cout<<"Presione ENTER para evaluar el siguiente archivo"<<endl;
 	cin.get();
@@ -660,6 +654,10 @@ int main()
 	ExpOriginal.insertar(primero); 
 	Arch3.LeerArchivo(cont); 
 	Arch3.recorrer();
+	lista ExpresionPostfijo3 = Arch3.recorrer();
+	ExpresionPostfijo3.evaluar();
+	
+	
 	cout<<"Presione ENTER para evaluar el siguiente archivo"<<endl;
 	cin.get();
 	
@@ -673,6 +671,11 @@ int main()
 	ExpOriginal.insertar(primero); 
 	Arch4.LeerArchivo(cont); 
 	Arch4.recorrer();
+	lista ExpresionPostfijo4 = Arch4.recorrer();
+	ExpresionPostfijo4.evaluar();
+	
+	
+	
 	cout<<"Presione ENTER para evaluar el siguiente archivo"<<endl;
 	cin.get();
 	
@@ -684,6 +687,9 @@ int main()
 	ExpOriginal.insertar(primero); 
 	Arch5.LeerArchivo(cont); 
 	Arch5.recorrer();
+	lista ExpresionPostfijo5 = Arch5.recorrer();
+	ExpresionPostfijo5.evaluar();
+	
 	cout<<"Presione ENTER para SALIR"<<endl;
 	cin.get();
 	
