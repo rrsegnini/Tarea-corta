@@ -412,23 +412,35 @@ lista lista :: recorrer(){ //recorre la lista que contiene la expresion original
 				listaTemp.InsertarFinal(aux->valor);
 				
 			}else{
-				if (prioriDP(listaTemp.retUltimo()) >= prioriFP(aux->valor)){ 
+				
+				if (aux->valor == ")"){ 
+					if (listaTemp.primero -> valor == "("){
+						listaTemp.BorrarInicio();
+					}else{
+						pilaPosFijo.InsertarFinal(listaTemp.primero->valor);
+						listaTemp.BorrarInicio();
+						
+					}
+					
+					
+				}else{
+					
+					if (prioriDP(listaTemp.retUltimo()) >= prioriFP(aux->valor)){ 
 					pilaPosFijo.InsertarFinal(listaTemp.retUltimo());
 					listaTemp.BorrarFinal();
 					listaTemp.InsertarFinal(aux->valor);
 					
-				if (aux->valor == ")"){ 
-					listaTemp.BorrarInicio();
-					
-				}
-				}else{
+					}else{
 					listaTemp.InsertarFinal(aux->valor);
+					}
+				
 					
 				}
 				
 			}
 			
 			}
+		listaTemp.Mostrar();
 		 aux = aux -> siguiente;
 		
 	
@@ -439,8 +451,8 @@ lista lista :: recorrer(){ //recorre la lista que contiene la expresion original
 	}
 	
 		
-	//cout<< "Lista Temp";
-	//listaTemp.Mostrar();
+	cout<< "Lista Temp";
+	listaTemp.Mostrar();
 	cout<< "PosFijo: ";
 	pilaPosFijo.Mostrar();
 	return pilaPosFijo;
