@@ -80,6 +80,7 @@ class lista {
     string retUltimo();
     void evaluar();
     int evaluarNumeros(int numero1, int numero2, string operacion);
+    void buscarParentesis(int cantidad);
     
     
    private:
@@ -390,17 +391,20 @@ int prioriFP (string s){
 }
 	
 	
-	
 lista lista :: recorrer(){ //recorre la lista que contiene la expresion original
 
 	pnodo aux;
 	aux = primero;
 	lista listaTemp;
 	lista pilaPosFijo;
-	int tempNum;
+	int contPar = 0;
 	
 	while (aux){
 		
+		if (aux->valor == "("){
+			contPar++;
+			
+		}
 		if (isdigit(aux->valor[0])){  //Si es numero, la pone en el posfijo de una vez
 			//tempNum = convInt(aux->valor);
 			//pilaPosFijo.InsertarFinal(tempNum);
@@ -408,21 +412,20 @@ lista lista :: recorrer(){ //recorre la lista que contiene la expresion original
 			
 		
 		}else{
+		
 			if (listaTemp.ListaVacia()){  //Si la listatemp de simbolos esta vacia, mete el operador de una vez
 				listaTemp.InsertarFinal(aux->valor);
 				
 			}else{
 				
 				if (aux->valor == ")"){ 
-					if (listaTemp.primero -> valor == "("){
-						listaTemp.BorrarInicio();
-					}else{
-						pilaPosFijo.InsertarFinal(listaTemp.primero->valor);
-						listaTemp.BorrarInicio();
-						
+					while (listaTemp.retUltimo()!= "("){
+						pilaPosFijo.InsertarFinal(listaTemp.retUltimo());
+					    listaTemp.BorrarFinal();
 					}
+					listaTemp.BorrarFinal();
 					
-					
+						
 				}else{
 					
 					if (prioriDP(listaTemp.retUltimo()) >= prioriFP(aux->valor)){ 
@@ -442,6 +445,7 @@ lista lista :: recorrer(){ //recorre la lista que contiene la expresion original
 			}
 		listaTemp.Mostrar();
 		 aux = aux -> siguiente;
+		 
 		
 	
 	}
@@ -450,9 +454,7 @@ lista lista :: recorrer(){ //recorre la lista que contiene la expresion original
 		pilaPosFijo.InsertarFinal(listaTemp.retUltimo());
 	}
 	
-		
-	cout<< "Lista Temp";
-	listaTemp.Mostrar();
+
 	cout<< "PosFijo: ";
 	pilaPosFijo.Mostrar();
 	return pilaPosFijo;
@@ -669,7 +671,6 @@ int main()
 	cin.get();
 	
 
-	
 	
 	
 	
